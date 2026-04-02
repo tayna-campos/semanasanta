@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Semana de Jesus - Jogo</title>
+  <style>
+    body { font-family: Arial; text-align: center; background: #f0f8ff; }
+    h1 { margin-bottom: 10px; }
+
+    .container { display: flex; justify-content: space-around; margin-top: 20px; gap:20px; }
+    .events, .days { width: 45%; }
+
+    .event {
+      background: white;
+      padding: 10px;
+      margin: 10px;
+      border-radius: 10px;
+      cursor: grab;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .day {
+      background: #dff6ff;
+      margin: 10px;
+      padding: 10px;
+      min-height: 120px;
+      border-radius: 10px;
+      text-align: left;
+    }
+
+    .day-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .dropzone {
+      min-height: 80px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      background: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Organize a Última Semana de Jesus</h1>
+<p>Arraste os eventos para o dia correto</p>
+
+<div class="container">
+
+  <div class="events" id="events">
+
+    <div class="event" draggable="true" id="sexta">Crucificação</div>
+    <div class="event" draggable="true" id="terca">Confronta fariseus</div>
+    <div class="event" draggable="true" id="domingo2">Ressurreição</div>
+    <div class="event" draggable="true" id="segunda">Amaldiçoou a figueira</div>
+    <div class="event" draggable="true" id="quinta">Getsêmani</div>
+    <div class="event" draggable="true" id="domingo1">Entrada Triunfal</div>
+    <div class="event" draggable="true" id="sexta">Carregou a cruz</div>
+    <div class="event" draggable="true" id="terca">Ensinos no templo</div>
+    <div class="event" draggable="true" id="quinta">Última Ceia</div>
+    <div class="event" draggable="true" id="quarta">Traição de Judas</div>
+    <div class="event" draggable="true" id="segunda">Expulsou os mercadores</div>
+    <div class="event" draggable="true" id="sabado">Sepulcro</div>
+    <div class="event" draggable="true" id="sexta">Julgamento diante de Pilatos</div>
+    <div class="event" draggable="true" id="terca">Profecias sobre o fim</div>
+    <div class="event" draggable="true" id="quinta">Lava-pés</div>
+
+  </div>
+
+  <div class="days">
+
+    <div class="day" data-day="domingo1">
+      <div class="day-title">Domingo</div>
+      <div class="dropzone"></div>
+    </div>
+
+    <div class="day" data-day="segunda">
+      <div class="day-title">Segunda</div>
+      <div class="dropzone"></div>
+    </div>
+
+    <div class="day" data-day="terca">
+      <div class="day-title">Terça</div>
+      <div class="dropzone"></div>
+    </div>
+
+    <div class="day" data-day="quarta">
+      <div class="day-title">Quarta</div>
+      <div class="dropzone"></div>
+    </div>
+
+    <div class="day" data-day="quinta">
+      <div class="day-title">Quinta</div>
+      <div class="dropzone"></div>
+    </div>
+
+    <div class="day" data-day="sexta">
+      <div class="day-title">Sexta</div>
+      <div class="dropzone"></div>
+    </div>
+
+    <div class="day" data-day="sabado">
+      <div class="day-title">Sábado</div>
+      <div class="dropzone"></div>
+    </div>
+
+    <div class="day" data-day="domingo2">
+      <div class="day-title">Domingo</div>
+      <div class="dropzone"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<button onclick="checkAnswers()">Verificar</button>
+
+<script>
+  const events = document.querySelectorAll('.event');
+  const dropzones = document.querySelectorAll('.dropzone');
+
+  let dragged;
+
+  events.forEach(event => {
+    event.addEventListener('dragstart', () => dragged = event);
+  });
+
+  dropzones.forEach(zone => {
+    zone.addEventListener('dragover', e => e.preventDefault());
+
+    zone.addEventListener('drop', e => {
+      e.preventDefault();
+      zone.appendChild(dragged);
+    });
+  });
+
+  function checkAnswers() {
+    let correct = 0;
+
+    document.querySelectorAll('.day').forEach(day => {
+      const zone = day.querySelector('.dropzone');
+      const items = zone.children;
+
+      let dayCorrect = true;
+
+      for (let item of items) {
+        if (item.id !== day.dataset.day) {
+          dayCorrect = false;
+        }
+      }
+
+      if (items.length > 0 && dayCorrect) {
+        day.style.background = '#c8f7c5';
+        correct++;
+      } else {
+        day.style.background = '#f7c5c5';
+      }
+    });
+
+    alert('Dias corretos: ' + correct + ' de 8');
+  }
+</script>
+
+</body>
+</html>
